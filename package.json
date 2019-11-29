@@ -1,0 +1,22 @@
+{
+  "name": "hypernews",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html -d public",
+    "deploy": "surge ./public hyperapp-hn.surge.sh"
+  },
+  "devDependencies": {
+    "firebase-tools": "^7.7.0",
+    "nice-color-palettes": "^3.0.0",
+    "parcel-bundler": "^1.12.4",
+    "surge": "^0.21.3"
+  },
+  "dependencies": {
+    "firebase": "^7.3.0",
+    "hyperapp": "^2.0.3",
+    "hyperapp-debug": "^1.0.0-beta.4"
+  }
+}
