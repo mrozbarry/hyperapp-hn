@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+    
+    - name: Yarn Install
+      uses: sergioramos/yarn-actions/install@master
+      with:
+        frozen-lockfile: true
+
+    - name: Build
+      uses: sergioramos/yarn-actions/run@master
+      with:
+        script: build
+    
+    - run: $(yarn bin)/surge ./public ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+
