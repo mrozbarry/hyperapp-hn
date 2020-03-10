@@ -8,12 +8,12 @@ export const storyContainerList = ({ items, now, storyId, database, ...rest }) =
     container,
     {
       ...rest,
-      style: {
-        ...(rest.style || {}),
-        backgroundColor: storyId ? '#eee' : 'white',
-        flex: 1,
+      id: 'fooooo',
+      class: {
+        'story-container-list': true,
+        'story-container-list--with-story': !!storyId,
       },
     },
-    h(singleStoryList, { items, now, storyId, type: 'ol', database }),
+    h(singleStoryList, { items, now, storyId, database }),
   );
 };

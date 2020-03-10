@@ -3,7 +3,6 @@ html, body {
   padding: 0;
   font-size: 16px;
   font-family: sans-serif;
-  min-height: 100vh;
 }
 
 body * {
@@ -12,13 +11,14 @@ body * {
 
 .layout {
   width: 100%;
+  height: 100vh;
 }
 
 .layout--nav {
   width: 100%;
-  padding: 1rem;
+  height: 70px;
   color: white;
-  background-color: black;
+  background-color: #38B0DE;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -48,16 +48,19 @@ body * {
   width: 80px;
 }
 
-.columns {
-  display: flex;
-  align-items: flex-start;
-  justify-content: stretch;
+.layout--content {
+  display: grid;
+  grid-template-columns: 1fr;
   width: 100%;
 }
 
 .container {
-  max-height: 100vh;
   overflow: auto;
+  background-color: white;
+  height: calc(100vh - 70px);
+}
+
+.container--dimmed {
   background-color: #eee;
 }
 
@@ -85,7 +88,6 @@ ul .comment-thread {
 }
 
 .single-comment--text {
-  /* No styles */
   font-weight: 200;
   margin-bottom: 0.5rem;
 }
@@ -96,8 +98,9 @@ ul .comment-thread {
 
 
 .single-story {
-  /* No styles */
-  display: inline;
+  display: block;
+  padding: 1rem;
+  padding-left: 2rem;
 }
 
 .single-story--header {
@@ -111,6 +114,28 @@ ul .comment-thread {
   font-weight: 200;
 }
 
-.single-story-list {
-  list-style: inside decimal;
+.story-container-list {
+  background-color: white;
+  flex: 1;
+  transition: all .3s ease-in-out;
+}
+
+.story-container-list--with-story {
+  background-color: #eee;
+}
+
+.stories {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stories--item {
+  margin-bottom: 2px;
+  background-color: transparent;
+  transition: all .3s ease-in-out;
+}
+
+.stories--item--selected {
+  background-color: white;
 }

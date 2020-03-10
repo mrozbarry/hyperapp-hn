@@ -1,7 +1,7 @@
 import * as loading from './loading';
 
 const makeFilter = (storyFilter) => {
-  const checkValueOfStory = (story, key, text) => (story[key] || '').toLowerCase().includes(text);
+  const checkValueOfStory = (story, key, text) => `${(story[key] || '')}`.toLowerCase().includes(text);
 
   const makeKeyValueMatcher = (text) => {
     const [key, value] = text.split(':');

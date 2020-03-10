@@ -1,13 +1,13 @@
 import { h } from 'hyperapp';
 import * as loading from '../helpers/loading';
-import * as actions from '../actions';
 import fuzzyTime from '../helpers/fuzzyTime';
+import * as actions from '../actions';
 
 import { link } from './link';
 
 const domainMatcher = /https?:\/\/([^\/]+)\/?/i;
 const urlDomain = story => {
-  if (!story.url) {
+  if (!story || !story.url) {
     return null;
   }
 
@@ -28,7 +28,6 @@ export const singleStory = ({ item, now, database }) => {
     ],
     onmouseenter: [actions.SetWatchStories, { watchStories: false }],
     onmouseleave: [actions.SetWatchStories, { watchStories: true }],
-    target: '_blank',
   });
 
   const urlLinkProps = story => story.url
@@ -46,6 +45,7 @@ export const singleStory = ({ item, now, database }) => {
 
       return h('article', { class: 'single-story' }, [
         h('header', { class: 'single-story--header' }, [
+          story.rank && h('a', { name: `story-${story.id}` }, `${story.rank}. `),
           h(link, urlLinkProps(story), story.title),
           domain && [
             ' ',

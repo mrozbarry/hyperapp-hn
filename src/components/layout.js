@@ -7,7 +7,7 @@ const selectDecode = e => {
   return e.target.value;
 };
 
-export const layout = ({ storyFilter, storyType }, children) => h('section', { class: 'layout' }, [
+export const layout = ({ storyFilter, storyType, columns }, children) => h('section', { class: 'layout' }, [
   h('nav', { class: 'layout--nav' }, [
     h('div', { class: 'layout--nav-item' }, [
       'Hyperapp',
@@ -39,5 +39,14 @@ export const layout = ({ storyFilter, storyType }, children) => h('section', { c
       ),
     ]),
   ]),
-  children,
+  h(
+    'section',
+    {
+      class: 'layout--content',
+      style: {
+        gridTemplateColumns: Array.from({ length: columns }, () => '1fr').join(' '),
+      },
+    },
+    children,
+  ),
 ]);

@@ -7,9 +7,14 @@ import * as filterStories from './helpers/filterStories';
 import * as databaseService from './services/database';
 
 import { layout } from './components/layout';
-import { columns } from './components/columns';
-import { storyContainerList } from './components/storyContainerList';
+import { stories } from './components/stories';
 import { storyComments } from './components/storyComments';
+
+const mapStories = ({ ids, stories }) => ids
+  .reduce((order, id, rank) => [
+    ...order,
+    loading.augment(stories[id], (s) => ({ ...(s || {}), rank: rank + 1 })),
+  ], []);
 
 const mount = () => {
   const database = databaseService.instance();
@@ -18,34 +23,35 @@ const mount = () => {
     init: actions.Init(),
 
     view: state => {
-      const mappedStories = state.ids
-        .reduce((order, id) => [
-          ...order,
-          state.stories[id],
-        ], []);
-
-      const { storyFilter, storyType } = state;
-      const stories = filterStories.filter(mappedStories, storyFilter);
-
       const now = Date.now();
 
-      const storyList = h(storyContainerList, {
-        items: stories,
-        now,
-        database,
-      });
-
-
-      if (!state.storyId) {
-        return h(layout, { storyFilter, storyType }, storyList);
-      }
-
+      const mappedStories = mapStories(state);
+      const { storyFilter, storyType, storyId } = state;
       const story = state.stories[state.storyId];
 
-      return h(layout, { storyFilter, storyType }, columns(null, [
-        storyList,
-        h(storyComments, { item: story, comments: state.comments, storyId: state.storyId, now, database }),
-      ]));
+      const visibleStories= filterStories.filter(mappedStories, storyFilter);
+
+      return h(
+        layout,
+        {
+          storyFilter,
+          storyType,
+          columns: state.storyId ? 2 : 1,
+        },
+        [
+          
+          h(stories, {
+            items: visibleStories,
+            now,
+            storyId,
+            database,
+          }),
+          state.storyId && h(
+            storyComments,
+            { item: story, comments: state.comments, storyId, now, database }
+          ),
+        ],
+      );
     },
 
     subscriptions: state => {

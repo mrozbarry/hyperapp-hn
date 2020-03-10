@@ -23,3 +23,7 @@ export const unwrap = (item, fallback) => {
   const v = result(item, {}, (value) => value)
   return v || fallback;
 };
+
+export const augment = (item, fn) => {
+  return [item[0], fn(item[1])];
+}
