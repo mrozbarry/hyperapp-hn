@@ -1,9 +1,9 @@
 import { app, h } from 'hyperapp';
 import withRouter from '@mrbarrysoftware/hyperapp-router';
+//import withDebug from 'hyperapp-debug';
 import * as actions from './actions';
 import * as effects from './effects/index';
 import * as loading from './helpers/loading';
-import * as storyHelper from './helpers/story';
 import * as filterStories from './helpers/filterStories';
 import * as databaseService from './services/database';
 import routes from './routes';

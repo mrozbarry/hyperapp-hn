@@ -26,17 +26,31 @@ export const layout = ({ storyFilter, storyType, columns }, children) => h('sect
           oninput: [actions.StoryFilterInput, inputDecode],
         }
       ),
-      h(
-        'select',
-        {
-          class: 'layout--nav-filter-element layout--nav-stories',
-          onchange: [actions.SetStoryType, selectDecode],
-          value: storyType,
-        },
-        ['top', 'best', 'new'].map((type) => (
-          h('option', { value: type }, type)
-        )),
-      ),
+      ['Top', 'Best', 'New'].map(label => {
+        const value = label.toLowerCase();
+        return h('button', {
+          type: 'button',
+          class: {
+            'layout--nav-story-type': true,
+            'layout--nav-story-type--selected': value === storyType,
+          },
+          onclick: [
+            actions.SetStoryType,
+            { storyType: value },
+          ],
+        }, label)
+      }),
+      //h(
+        //'select',
+        //{
+          //class: 'layout--nav-filter-element layout--nav-stories',
+          //onchange: [actions.SetStoryType, selectDecode],
+          //value: storyType,
+        //},
+        //['top', 'best', 'new'].map((type) => (
+          //h('option', { value: type }, type)
+        //)),
+      //),
     ]),
   ]),
   h(

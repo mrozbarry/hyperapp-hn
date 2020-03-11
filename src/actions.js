@@ -55,10 +55,16 @@ export const SelectStory = (state, { storyType, storyId }) => ({
 });
 
 export const CloseStory = state => {
-  console.log('close story', state.storyType);
   return [
     state,
-    effects.CloseStory({ storyType: state.storyType }),
+    effects.Navigate({ href: `/${state.storyType}` }),
+  ];
+};
+
+export const ChangeStoryType = (state, { storyType }) => {
+  return [
+    state,
+    effects.Navigate({ href: `/${storyType}` }),
   ];
 };
 
