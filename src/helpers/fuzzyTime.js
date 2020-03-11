@@ -1,4 +1,7 @@
-const timeFormatter = new Intl.RelativeTimeFormat('en', { numeric: 'always', style: 'long' });
+import '@formatjs/intl-relativetimeformat/polyfill';
+import '@formatjs/intl-relativetimeformat/polyfill-locales';
+
+const timeFormatter = new Intl.RelativeTimeFormat(undefined, { numeric: 'always', style: 'long' });
 export default (now, unix) => {
   const other = (unix * 1000);
 
