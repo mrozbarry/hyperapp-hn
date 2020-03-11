@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html -d public",
+    "build:parcel": "parcel build src/index.html -d public",
+    "build": "yarn build:parcel && mv public/index.html public/200.html",
     "deploy": "surge ./public hyperapp-hn.surge.sh"
   },
   "devDependencies": {
