@@ -5,22 +5,13 @@ import fuzzyTime from '../helpers/fuzzyTime';
 
 import { link } from './link';
 
-export const singleComment = ({ item, now, database }) => {
+export const comment = ({ item, now }) => {
   const commentLinkProps = (comment) => ({
-    href: `#comment-${comment.id}`,
     onClick: [
-      actions.LoadReplies,
-      (e) => {
-        e.preventDefault();
-        return { commentIds: comment.kids || [], database };
-      },
+      actions.ExpandComments,
+      { id: comment.id }
     ],
-    target: '_blank',
   });
-
-  const urlLinkProps = comment => comment.url
-    ? { href: comment.url, target: '_blank' }
-    : commentLinkProps(comment);
 
   return loading.result(item, {
     [loading.OK]: comment => h('section', { class: 'single-comment' }, [
@@ -31,8 +22,8 @@ export const singleComment = ({ item, now, database }) => {
       ]),
       h('article', { class: 'single-comment--text', innerHTML: comment.text }),
       comment.deleted && h('em', { class: 'single-comment--deleted' }, 'deleted'),
-      (comment.kids && comment.kids.length > 0)
-        ? h('a', commentLinkProps(comment), `${comment.kids.length} Replies`)
+      ((comment.kids || []).length > 0)
+        ? h('button', commentLinkProps(comment), `${comment.kids.length} Replies`)
         : null,
     ]),
   }, ({ id }) => `loading(${id})`)

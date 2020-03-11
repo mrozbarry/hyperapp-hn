@@ -16,27 +16,13 @@ const urlDomain = story => {
   return match[1];
 };
 
-export const singleStory = ({ item, now, database }) => {
+export const story = ({ storyType, item, now, includeText }) => {
   const commentLinkProps = story => ({
-    href: `#story-${story.id}`,
-    onclick: [
-      actions.ShowComments,
-      (e) => {
-        e.preventDefault();
-        return { storyId: story.id, database };
-      },
-    ],
-    onmouseenter: [actions.SetWatchStories, { watchStories: false }],
-    onmouseleave: [actions.SetWatchStories, { watchStories: true }],
+    href: `/${storyType}/${story.id}`,
   });
 
   const urlLinkProps = story => story.url
-    ? {
-      href: story.url,
-      target: '_blank',
-      onmouseenter: [actions.SetWatchStories, { watchStories: false }],
-      onmouseleave: [actions.SetWatchStories, { watchStories: true }],
-    }
+    ? { href: story.url, target: '_blank' }
     : commentLinkProps(story);
 
   return loading.result(item, {
@@ -65,7 +51,8 @@ export const singleStory = ({ item, now, database }) => {
               domain,
             ),
             ')',
-          ]
+          ],
+          (includeText && !!story.text) && h('p', null, story.text),
         ]),
         h('footer', { class: 'single-story--footer' }, [
           story.score,
@@ -81,5 +68,5 @@ export const singleStory = ({ item, now, database }) => {
         ]),
       ]);
     },
-  }, ({ id }) => `loading(${id})`)
+  }, (data) => `loading(${data ? data.id : '???'})`)
 }

@@ -80,6 +80,7 @@ ul .comment-thread {
 
 .single-comment {
   /* No styles */
+  margin-bottom: 1rem;
 }
 
 .single-comment--header {
