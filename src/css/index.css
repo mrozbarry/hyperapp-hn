@@ -57,6 +57,11 @@ body * {
   border-radius: 0 5px 5px 0;
 }
 
+.layout--nav-item-github {
+  color: white;
+  margin-right: 1rem;
+}
+
 .layout--nav-stories {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -68,6 +73,7 @@ body * {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  transition: all .3s ease-in-out;
 }
 
 .container {
