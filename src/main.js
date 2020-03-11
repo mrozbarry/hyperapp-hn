@@ -1,25 +1,31 @@
 import { app, h } from 'hyperapp';
+import withRouter from '@mrbarrysoftware/hyperapp-router';
 import * as actions from './actions';
 import * as effects from './effects/index';
 import * as loading from './helpers/loading';
 import * as storyHelper from './helpers/story';
 import * as filterStories from './helpers/filterStories';
 import * as databaseService from './services/database';
+import routes from './routes';
 
 import { layout } from './components/layout';
 import { stories } from './components/stories';
 import { storyComments } from './components/storyComments';
 
-const mapStories = ({ ids, stories }) => ids
+const mapStories = ({ ids, items }) => ids
   .reduce((order, id, rank) => [
     ...order,
-    loading.augment(stories[id], (s) => ({ ...(s || {}), rank: rank + 1 })),
+    loading.augment(items[id], (s) => ({ ...(s || {}), rank: rank + 1 })),
   ], []);
 
 const mount = () => {
   const database = databaseService.instance();
 
-  return app({
+  return withRouter(app)({
+    router: {
+      routes,
+    },
+
     init: actions.Init(),
 
     view: state => {
@@ -27,7 +33,7 @@ const mount = () => {
 
       const mappedStories = mapStories(state);
       const { storyFilter, storyType, storyId } = state;
-      const story = state.stories[state.storyId];
+      const story = state.items[state.storyId];
 
       const visibleStories= filterStories.filter(mappedStories, storyFilter);
 
@@ -36,7 +42,7 @@ const mount = () => {
         {
           storyFilter,
           storyType,
-          columns: state.storyId ? 2 : 1,
+          columns: state.storyId ? ['40%', '60%'] : ['100%', 0],
         },
         [
           
@@ -44,38 +50,45 @@ const mount = () => {
             items: visibleStories,
             now,
             storyId,
+            storyType: state.storyType,
             database,
           }),
+
           state.storyId && h(
             storyComments,
-            { item: story, comments: state.comments, storyId, now, database }
+            {
+              item: story,
+              comments: state.comments,
+              storyId,
+              now,
+              expandedComments: state.expandedComments,
+            }
           ),
         ],
       );
     },
 
     subscriptions: state => {
-      const story = loading.unwrap(state.stories[state.storyId], { kids: [] });
-
-      const storyId = state.storyId ? JSON.stringify([state.storyId]) : null;
-      const commentIds = state.storyId ? JSON.stringify(storyHelper.getAllCommentIds(story.kids, state.comments)) : null;
-
       return [ 
-        state.watchStories && effects.List({
-          SetStoryIDs: actions.InitializeStories,
+        effects.List({
           storyType: state.storyType,
+          SetStoryIDs: actions.InitializeStories,
           database,
         }),
-        storyId && effects.WatchItems({
+
+        effects.ListStories({
+          ids: state.ids,
+          storyId: state.storyId,
+          SetStory: actions.SetStory,
           database,
-          OnUpdate: actions.SetStory,
-          stringifiedIds: storyId,
         }),
-        commentIds && effects.WatchItems({
+
+        state.storyId && effects.ListComments({
+          storyId: state.storyId,
+          SetComment: actions.SetComment,
           database,
-          OnUpdate: actions.UpdateComment,
-          stringifiedIds: commentIds,
         }),
+
       ];
     },
 

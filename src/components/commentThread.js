@@ -1,5 +1,5 @@
 import { h } from 'hyperapp';
-import { singleComment } from './singleComment';
+import { comment } from './comment';
 import * as actions from '../actions';
 import * as storyHelper from '../helpers/story';
 
@@ -11,7 +11,7 @@ const colors = [
   '#fa6900',
 ];
 
-export const commentThread = ({ parent, comments, depth, now, database }) => {
+export const commentThread = ({ parent, comments, depth, now, expandedComments }) => {
   const items = storyHelper
     .get(parent, 'kids', [])
     .map(id => comments[id])
@@ -30,18 +30,22 @@ export const commentThread = ({ parent, comments, depth, now, database }) => {
     class: 'comment-thread',
   };
 
-  return h('ul', ulProps, items.map(comment => {
-    const hasChildren = storyHelper.get(comment, 'kids', []).length > 0;
-    const isDeleted = storyHelper.get(comment, 'deleted', false);
+  return h('ul', ulProps, items.map(item => {
+    const hasChildren = storyHelper.get(item, 'kids', []).length > 0;
+    // const isDeleted = storyHelper.get(item, 'deleted', false);
+    const id = storyHelper.get(item, 'id', -1);
+
+    const shouldExpand = hasChildren
+      && expandedComments.includes(id)
 
     return h(
       'li',
       {
-        class: 'comment-thread--item',
+        class: 'item-thread--item',
       },
       [
-        h(singleComment, { item: comment, now, database }),
-        !isDeleted && hasChildren && commentThread({ parent: comment, comments, depth: nextDepth, now, database }),
+        h(comment, { item, now }),
+        shouldExpand && commentThread({ parent: item, comments, depth: nextDepth, now, expandedComments }),
       ],
     );
   }));

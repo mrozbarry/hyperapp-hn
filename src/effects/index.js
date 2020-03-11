@@ -1,4 +1,4 @@
 export { List } from './list';
-export { Stories } from './stories';
-export { Comments } from './comments';
-export { WatchItems } from './watchItems';
+export { ListStories } from './listStories';
+export { ListComments } from './listComments';
+export { CloseStory } from './closeStory';

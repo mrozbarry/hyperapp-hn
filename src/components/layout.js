@@ -44,7 +44,7 @@ export const layout = ({ storyFilter, storyType, columns }, children) => h('sect
     {
       class: 'layout--content',
       style: {
-        gridTemplateColumns: Array.from({ length: columns }, () => '1fr').join(' '),
+        gridTemplateColumns: columns.join(' '),
       },
     },
     children,
