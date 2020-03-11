@@ -52,6 +52,8 @@ export const layout = ({ storyFilter, storyType, columns }, children) => h('sect
         //)),
       //),
     ]),
+    h('div', { style: { flex: 1 } }),
+    h('a', { href: 'https://github.com/mrozbarry/hyperapp-hn', target: '_blank', class: 'layout--nav-item-github' }, 'Check it out on github'),
   ]),
   h(
     'section',
