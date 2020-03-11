@@ -52,7 +52,7 @@ export const story = ({ storyType, item, now, includeText }) => {
             ),
             ')',
           ],
-          (includeText && !!story.text) && h('p', null, story.text),
+          (includeText && !!story.text) && h('div', { innerHTML: story.text }),
         ]),
         h('footer', { class: 'single-story--footer' }, [
           story.score,
