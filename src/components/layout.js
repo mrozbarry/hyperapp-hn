@@ -9,17 +9,17 @@ const selectDecode = e => {
 
 export const layout = ({ storyFilter, storyType, columns }, children) => h('section', { class: 'layout' }, [
   h('nav', { class: 'layout--nav' }, [
-    h('div', { class: 'layout--nav-item' }, [
+    h('div', { class: 'layout--nav-item', style: { gridArea: 'logo', justifyContent: 'flex-start' } }, [
       'Hyperapp',
       ' ',
       h('strong', null, '[HN]'),
 
     ]),
-    h('div', { class: 'layout--nav-item' }, [
+    h('div', { class: 'layout--nav-item', style: { gridArea: 'filter' } }, [
       h(
         'input',
         {
-          class: 'layout--nav-filter-element layout--nav-filter',
+          class: 'layout--nav-item-filter-input',
           placeholder: 'Filter Stories',
           type: 'text',
           value: storyFilter,
@@ -40,20 +40,10 @@ export const layout = ({ storyFilter, storyType, columns }, children) => h('sect
           ],
         }, label)
       }),
-      //h(
-        //'select',
-        //{
-          //class: 'layout--nav-filter-element layout--nav-stories',
-          //onchange: [actions.SetStoryType, selectDecode],
-          //value: storyType,
-        //},
-        //['top', 'best', 'new'].map((type) => (
-          //h('option', { value: type }, type)
-        //)),
-      //),
     ]),
-    h('div', { style: { flex: 1 } }),
-    h('a', { href: 'https://github.com/mrozbarry/hyperapp-hn', target: '_blank', class: 'layout--nav-item-github' }, 'Check it out on github'),
+    h('div', { class: 'layout--nav-item', style: { justifyContent: 'flex-end', gridArea: 'github' } }, [
+      h('a', { href: 'https://github.com/mrozbarry/hyperapp-hn', target: '_blank', class: 'layout--nav-item-github' }, 'Source on github'),
+    ]),
   ]),
   h(
     'section',

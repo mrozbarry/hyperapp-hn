@@ -19,6 +19,7 @@ const urlDomain = story => {
 export const story = ({ storyType, item, now, includeText }) => {
   const commentLinkProps = story => ({
     href: `/${storyType}/${story.id}`,
+    style: { fontSize: '1rem' },
   });
 
   const urlLinkProps = story => story.url
@@ -29,42 +30,51 @@ export const story = ({ storyType, item, now, includeText }) => {
     [loading.OK]: story => {
       const domain = urlDomain(story);
 
-      return h('article', { class: 'single-story' }, [
-        h('header', { class: 'single-story--header' }, [
-          story.rank && h('a', { name: `story-${story.id}` }, `${story.rank}. `),
-          h(link, urlLinkProps(story), story.title),
-          domain && [
-            ' ',
-            '(',
-            h(
-              'a',
-              {
-                href: '#url-filter',
-                onclick: [
-                  actions.StoryFilterInput,
-                  (e) => {
-                    e.preventDefault();
-                    return domain;
-                  },
-                ],
-              },
-              domain,
-            ),
-            ')',
-          ],
-          (includeText && !!story.text) && h('div', { innerHTML: story.text }),
+      return h('div', { class: 'story' }, [
+        !includeText && h('div', { class: 'story--meta' }, [
+          h('div', { class: 'story--meta_rank' }, `#${story.rank}`),
+          h('div', { class: 'story--meta_score' }, `${story.score}pts`),
         ]),
-        h('footer', { class: 'single-story--footer' }, [
-          story.score,
-          'pts, ',
-          'by ',
-          h(link, { href: `https://news.ycombinator.com/user?id=${story.by}` }, story.by),
-          ' ',
-          fuzzyTime(now, story.time),
-          ' ',
-          (story.descendants > 0)
-            ? h('a', commentLinkProps(story), `${story.descendants} Comments`)
-            : h('a', commentLinkProps(story), `Comments`)
+        h('div', { class: 'story--content' }, [
+          h('div', { class: 'story--content_title' }, [
+            h('a', urlLinkProps(story), story.title),
+            domain && [
+              ' ',
+              '(',
+              h(
+                'a',
+                {
+                  href: '#url-filter',
+                  onclick: [
+                    actions.StoryFilterInput,
+                    (e) => {
+                      e.preventDefault();
+                      return domain;
+                    },
+                  ],
+                },
+                domain,
+              ),
+              ')',
+            ],
+            (includeText && !!story.text) && h('div', { innerHTML: story.text }),
+          ]),
+          h('div', { class: 'story--content_footer' }, [
+            h('span', {}, [
+              h('a', { href: `https://news.ycombinator.com/user?item=${story.by}`, target: '_blank' }, story.by),
+              h('span', {}, ' '),
+              h('span', {}, 'Posted '),
+              h('span', {}, fuzzyTime(now, story.time)),
+              h('span', {}, ' with '),
+              h('span', {}, `${story.descendants || 0} Comment(s)`),
+              h('span', {}, ' | '),
+            ]),
+            !includeText && h('span', {}, [
+              h('a', { href: `/${storyType}/${story.id}` }, 'Comment Thread'),
+              h('span', {}, ' '),
+            ]),
+            h('a', { href: `https://news.ycombinator.com/item?id=${story.id}`, target: '_blank' }, 'On HackerNews'),
+          ]),
         ]),
       ]);
     },
