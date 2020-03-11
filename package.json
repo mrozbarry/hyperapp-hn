@@ -15,8 +15,9 @@
     "surge": "^0.21.3"
   },
   "dependencies": {
+    "@mrbarrysoftware/hyperapp-router": "^0.0.1-beta.2",
     "firebase": "^7.3.0",
     "hyperapp": "^2.0.3",
-    "hyperapp-debug": "^1.0.0-beta.4"
+    "hyperapp-debug": "^1.0.0-beta.5"
   }
 }
