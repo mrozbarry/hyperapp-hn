@@ -1,30 +1,22 @@
 import * as actions from './actions';
 
 const topIndex = {
-  OnEnter: () => (appState) => {
-    return actions.SetStoryType({
-      ...appState,
-      storyId: null,
-    }, {
-      storyType: 'top',
-    });
+  OnEnter: (state) => {
+    return actions.SetStoryType(state, { storyType: 'top' });
   },
 };
 
 const Index = {
-  OnEnter: ({ storyType }) => (appState) => {
-    return actions.SetStoryType({
-      ...appState,
-      storyId: null,
-    }, {
+  OnEnter: (state, { storyType }) => {
+    return actions.SetStoryType(state, {
       storyType,
     });
   },
 };
 
 const ShowStory = {
-  OnEnter: ({ storyType, storyId }) => (appState) => {
-    return actions.SelectStory(appState, {
+  OnEnter: (state, { storyType, storyId }) => {
+    return actions.SelectStory(state, {
       storyType,
       storyId,
     });

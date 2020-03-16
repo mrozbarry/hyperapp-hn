@@ -34,10 +34,7 @@ export const layout = ({ storyFilter, storyType, columns }, children) => h('sect
             'layout--nav-story-type': true,
             'layout--nav-story-type--selected': value === storyType,
           },
-          onclick: [
-            actions.SetStoryType,
-            { storyType: value },
-          ],
+          onclick: [actions.Navigate, { href: `/${value}` }],
         }, label)
       }),
     ]),

@@ -1,8 +1,6 @@
 import * as loading from './helpers/loading';
 import * as effects from './effects';
 
-const size = 10;
-
 const syncStoriesWithIds = (state, allIds) => {
   const ids = Object.keys(state.items).concat(allIds);
 
@@ -34,7 +32,13 @@ export const SetStoryIDs = (state, { ids }) => ({
 export const SetStoryType = (state, { storyType }) => ({
   ...state,
   storyType,
+  storyId: null,
 });
+
+export const Navigate = (state, { href }) => [
+  state,
+  effects.Navigate({ href }),
+];
 
 export const Init = () => SetStoryType(initialState, {
   storyType: 'top',

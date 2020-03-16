@@ -918,10 +918,10 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
   integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
 
-"@mrbarrysoftware/hyperapp-router@^0.0.1-beta.2":
-  version "0.0.1-beta.2"
-  resolved "https://registry.yarnpkg.com/@mrbarrysoftware/hyperapp-router/-/hyperapp-router-0.0.1-beta.2.tgz#f036aff0cec211ce1919387db4a1e9417f496d84"
-  integrity sha512-2cDOr+ZJoaizouIX3Tnh+VwofA72y8U+ngWe+LVVtL8zfZnlIjhjQuAoIZN7XEZ9X4VljGwXPSzGlvyELIiT3g==
+"@mrbarrysoftware/hyperapp-router@^0.0.1-beta.6":
+  version "0.0.1-beta.6"
+  resolved "https://registry.yarnpkg.com/@mrbarrysoftware/hyperapp-router/-/hyperapp-router-0.0.1-beta.6.tgz#d58a8668037024837feba6b0214835da0a797381"
+  integrity sha512-D59BcI9a/m7ZRhwcKa2aXpt40jbmn9TUCDIVZ8gTU+8cacBxGvhatfYYdqwzlI76/P+jQafzQbbAJCiSDitggA==
   dependencies:
     path-to-regexp "^6.1.0"
 
